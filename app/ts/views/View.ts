@@ -7,7 +7,7 @@
     }
 
     update(model: T) {
-        this._elemento.innerHTML = this.template(model);
+        this._elemento.html(this.template(model));
     }
 
     abstract template(model: T) : string;
