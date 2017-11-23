@@ -1,14 +1,22 @@
- export abstract class View<T> {
+export abstract class View<T> {
 
     private _elemento: JQuery;
+    private _perScript: boolean;
 
-    constructor(seletor: string) {
+    constructor(seletor: string, perScript?: boolean) {
         this._elemento = $(seletor);
+        this._perScript = perScript;
     }
 
     update(model: T) {
-        this._elemento.html(this.template(model));
+        let template = this.template(model);
+
+        if (!this._perScript) {
+            template = template.replace(/<script>[\s\S]*?<\/script>/, '');
+        }
+
+        this._elemento.html(template);
     }
 
-    abstract template(model: T) : string;
+    abstract template(model: T): string;
 }
